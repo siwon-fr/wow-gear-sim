@@ -1,0 +1,72 @@
+name: Build Simplified Chinese Windows package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/simplified-chinese]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zh-cn-windows-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out localized project
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Get SimulationCraft source
+        shell: pwsh
+        run: git clone --depth 1 https://github.com/simulationcraft/simc simc-src
+
+      - name: Build SimulationCraft for Windows
+        shell: pwsh
+        run: |
+          cmake -S simc-src -B simc-build -A x64 -DBUILD_GUI=OFF -DBUILD_TESTING=OFF
+          cmake --build simc-build --config Release --target simc --parallel
+          $simc = Get-ChildItem -Path simc-build -Filter simc.exe -Recurse | Select-Object -First 1
+          if (-not $simc) { throw "simc.exe was not produced by the build." }
+          "SIMC_EXE=$($simc.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Install dependencies and run tests
+        run: |
+          npm ci
+          npm test
+
+      - name: Check localized JavaScript syntax
+        shell: pwsh
+        run: |
+          node --check public/app.js
+          node --check public/analysis.js
+          node --check public/loadout.js
+          node --check public/i18n.js
+          node --check server.js
+
+      - name: Package standalone Windows application
+        shell: pwsh
+        run: node scripts/package.mjs --simc "$env:SIMC_EXE" --simc-src simc-src
+
+      - name: Create ZIP package
+        shell: pwsh
+        run: Compress-Archive -Path dist/SIMulacrum -DestinationPath dist/SIMulacrum-windows-zh-CN.zip
+
+      - name: Upload Windows EXE and ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: SIMulacrum-windows-zh-CN
+          path: |
+            dist/SIMulacrum-windows-zh-CN.zip
+            dist/SIMulacrum/SIMulacrum.exe
+          if-no-files-found: error
+          retention-days: 30
