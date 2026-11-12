@@ -258,7 +258,8 @@ export function stylesHtml(r, describe) {
     return best;
   });
   return `
-    <p class="hint">The same sets simmed in four kinds of fight. Gold marks the best set in each column.</p>
+    <p class="hint">The same sets simmed across the supported fight scenarios. Gold marks the best set in each column.</p>
+    ${r.skipped?.length ? '<p class="hint">Dungeon Slice was skipped because SimulationCraft does not support it for Demon Hunter by default.</p>' : ''}
     <div class="styles-wrap">
       <table class="styles">
         <thead><tr><th>Set</th>${cols.map((c) => `<th><span>${esc(c.label)}</span><small>${esc(c.note)}</small></th>`).join('')}</tr></thead>
@@ -283,7 +284,7 @@ export function stylesHtml(r, describe) {
 
 // --- history ----------------------------------------------------------------------
 
-const day = (t) => new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+const day = (t) => new Date(t).toLocaleDateString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric' });
 
 export function historyHtml(runs) {
   const list = [...runs].sort((a, b) => a.at - b.at);
@@ -324,7 +325,7 @@ export function historyHtml(runs) {
         const change = prev ? r.dps - prev.dps : null;
         return `
           <div class="h-row">
-            <span class="h-date">${new Date(r.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
+            <span class="h-date">${new Date(r.at).toLocaleString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
             <span class="h-fight">${esc(r.fightStyle)}${r.targets > 1 ? `, ${r.targets} targets` : ''}</span>
             <span class="h-dps">${fmt(r.dps)}${change == null ? '' : ` <small class="${change > 0 ? 'pos' : change < 0 ? 'neg' : ''}">${signed(change)}</small>`}</span>
             <span class="h-best-text">${r.bestText ? `Best: ${esc(r.bestText)} (${signed(r.best - r.dps)})` : 'Gear was already the best'}</span>

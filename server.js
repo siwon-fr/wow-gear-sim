@@ -16,7 +16,7 @@ import { buildCombos } from './lib/combos.js';
 import { deriveItems } from './lib/upgrades.js';
 import { buildSimcInput, buildVariants, normalizeOptions } from './lib/simc-input.js';
 import { breakdown, buffUptimes, mainStat, scaleOnly, statWeights } from './lib/report.js';
-import { crestVariants, vaultVariants, trinketVariants } from './lib/modes.js';
+import { crestVariants, vaultVariants, trinketVariants, supportedFightScenarios, supportedFightStyle } from './lib/modes.js';
 import * as updater from './updater.js';
 import * as history from './history.js';
 import pkg from './package.json' with { type: 'json' };
@@ -161,7 +161,8 @@ async function runSimc(job, {
   const inputPath = path.join(dir, `stage${stage}.simc`);
   const jsonPath = path.join(dir, `stage${stage}.json`);
   await fsp.mkdir(dir, { recursive: true });
-  await fsp.writeFile(inputPath, buildSimcInput(job.parsed, variants, options, {
+  const simOptions = { ...options, fightStyle: supportedFightStyle(job.parsed.className, options.fightStyle) };
+  await fsp.writeFile(inputPath, buildSimcInput(job.parsed, variants, simOptions, {
     jsonPath, threads: THREADS, targetError, htmlPath, actorLines, scale,
   }));
   job.progress = { ...job.progress, stage, phase: 'starting', done: 0, total: variants.length, error: targetError };
@@ -323,8 +324,9 @@ const MODES = {
   async styles(job) {
     const out = [];
     const { variants } = job;
-    for (const [i, scenario] of FIGHT_SCENARIOS.entries()) {
-      job.progress = { stages: FIGHT_SCENARIOS.length, label: scenario.label, note: `${scenario.label} (${scenario.note})` };
+    const { scenarios, skipped } = supportedFightScenarios(job.parsed.className, FIGHT_SCENARIOS);
+    for (const [i, scenario] of scenarios.entries()) {
+      job.progress = { stages: scenarios.length, label: scenario.label, note: `${scenario.label} (${scenario.note})` };
       const options = { ...job.options, fightStyle: scenario.fightStyle, targets: scenario.targets };
       const run = await runSimc(job, { variants, options, stage: i + 1 });
       if (!run) return null;
@@ -334,7 +336,7 @@ const MODES = {
         results: Object.fromEntries([...run.results].map(([name, r]) => [name, r])),
       });
     }
-    return { scenarios: out, names: variants.map((v) => v.name) };
+    return { scenarios: out, names: variants.map((v) => v.name), skipped };
   },
 
   async detail(job) {
