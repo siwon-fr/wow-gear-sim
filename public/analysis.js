@@ -283,7 +283,7 @@ export function stylesHtml(r, describe) {
 
 // --- history ----------------------------------------------------------------------
 
-const day = (t) => new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+const day = (t) => new Date(t).toLocaleDateString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric' });
 
 export function historyHtml(runs) {
   const list = [...runs].sort((a, b) => a.at - b.at);
@@ -324,7 +324,7 @@ export function historyHtml(runs) {
         const change = prev ? r.dps - prev.dps : null;
         return `
           <div class="h-row">
-            <span class="h-date">${new Date(r.at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
+            <span class="h-date">${new Date(r.at).toLocaleString(document.documentElement.lang || undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
             <span class="h-fight">${esc(r.fightStyle)}${r.targets > 1 ? `, ${r.targets} targets` : ''}</span>
             <span class="h-dps">${fmt(r.dps)}${change == null ? '' : ` <small class="${change > 0 ? 'pos' : change < 0 ? 'neg' : ''}">${signed(change)}</small>`}</span>
             <span class="h-best-text">${r.bestText ? `Best: ${esc(r.bestText)} (${signed(r.best - r.dps)})` : 'Gear was already the best'}</span>
