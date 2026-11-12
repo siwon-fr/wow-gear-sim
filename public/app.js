@@ -1,3 +1,5 @@
+import { initI18n } from './i18n.js';
+
 import { parseProfile, itemLine, GROUPS, GROUP_LABELS, PAIR_GROUPS, IGNORED_SLOTS } from '/lib/parse.js';
 import { countCombos } from '/lib/combos.js';
 import { GEMS, DIAMONDS, GEM_COLORS, GEM_BY_ID, CONSUMABLES } from '/lib/catalog.js';
@@ -11,6 +13,8 @@ import {
 } from './analysis.js';
 import { loadoutHtml } from './loadout.js';
 import { fillItemInfo, fromVault } from '/lib/item-info.js';
+
+initI18n();
 
 const STORAGE_KEY = 'gear-sim:profile';
 const SETTINGS_KEY = 'gear-sim:settings';
