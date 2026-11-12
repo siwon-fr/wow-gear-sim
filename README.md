@@ -1,5 +1,7 @@
 # SIMulacrum
 
+**简体中文版说明：** [README.zh-CN.md](README.zh-CN.md) · 默认简体中文界面，可切换 English。
+
 A local "Top Gear" for World of Warcraft. Paste your SimulationCraft addon export and it sims your gear, gems, consumables and talent loadouts with [SimulationCraft](https://github.com/simulationcraft/simc), then ranks them by DPS.
 
 It works for any class and spec. Everything comes from your export, and runs entirely on your PC with no limits.
