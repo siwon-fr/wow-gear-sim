@@ -480,6 +480,28 @@ const ZH={
 "Destruction":"毁灭",
 "Arms":"武器",
 "Fury":"狂怒"
+,
+"≈ marks quick-pass estimates that didn't make the final round. They're less precise, but well behind the leaders.":"≈ 表示快速筛选阶段的估算结果，未进入最终复模拟。这些结果精度较低，但与领先组合差距较大。",
+"Those results have expired. Run the sim again.":"这些模拟结果已过期，请重新运行模拟。",
+"That set is no longer available.":"该装备组合已不可用。",
+"Paste your SimC addon export first.":"请先粘贴 SimulationCraft 插件导出的角色数据。",
+"Could not find a character in that text.":"无法从文本中识别角色信息。",
+"Nothing to upgrade: your gear and bag items are already at max rank.":"没有可升级的装备：当前装备和背包物品均已达到最高等级。",
+"This export has no Great Vault rewards. Open the Great Vault in game, then type /simc again.":"导出数据中没有宏伟宝库奖励。请在游戏中打开宏伟宝库，然后重新输入 /simc。",
+"No trinkets to chart. Your trinkets are already at max rank and none are in your bags.":"没有可供绘制图表的饰品。当前饰品均已满级，背包中也没有其他饰品。",
+"Nothing to compare. Tick some gear, gems, consumables or talent loadouts.":"没有可比较的项目。请勾选装备、宝石、消耗品或天赋方案。",
+"Request too large":"请求内容过大",
+"Not found":"未找到",
+"Job not found":"找不到模拟任务",
+"That report has expired. Sim the set again to get a new one.":"该报告已过期，请重新模拟此装备组合以生成新报告。",
+"Icon unavailable":"图标不可用",
+"Method not allowed":"不支持此请求方法",
+"Wait for the current sim to finish first.":"请等待当前模拟完成后再试。",
+"Run Top DPS first.":"请先运行“最高 DPS”。",
+"The sim is still running.":"模拟仍在运行。",
+"Run":"运行",
+"Go to setup":"返回设置",
+"Re-run":"重新运行"
 };
 const originals=new WeakMap(),ownChanges=new WeakSet();let lang='zh-CN',busy=false;
 function tr(s){
@@ -513,6 +535,8 @@ function tr(s){
   out=out.replace(/\bSimulating: (.+)/g,'正在模拟：$1');
   out=out.replace(/\bset (\d+) of (\d+)…/g,'装备组合 $1 / $2…');
   out=out.replace(/\bSIMulacrum (.+) is available \(you have (.+)\)\./g,'SIMulacrum $1 有新版本（当前版本：$2）。');
+  out=out.replace(/^Run (.+)$/,'运行：$1');
+  out=out.replace(/^Re-run (.+)$/,'重新运行：$1');
   out=out.replace(/^Upgrade (.+) first$/,'优先升级：$1');
   out=out.replace(/^Take (.+)$/,'选择：$1');
   out=out.replace(/^Best: (.+) at (\d+)$/,'最佳：$1（装等 $2）');
