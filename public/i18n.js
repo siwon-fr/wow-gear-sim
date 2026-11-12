@@ -500,24 +500,24 @@ function tr(s){
       }else pos+=a.length;
     }
   }
-  out=out.replace(/\\bRun (\\d+) sims\\b/g,'运行 $1 项模拟');
-  out=out.replace(/\\b(\\d+) selected\\b/g,'已选择 $1 项');
-  out=out.replace(/\\b(\\d+) in bags\\b/g,'背包中 $1 件');
-  out=out.replace(/\\b(\\d+) in vault\\b/g,'宝库中 $1 件');
-  out=out.replace(/\\b(\\d+) reward(s?) in your export\\./g,'导出数据中有 $1 件宝库奖励。');
-  out=out.replace(/\\b(\\d+) gem setup(s?) to try\\b/g,'有 $1 种宝石组合待模拟');
-  out=out.replace(/\\b(\\d+) set(s?)\\b/g,'$1 套装备组合');
-  out=out.replace(/\\bWaiting in queue \\(position (\\d+)\\)…/g,'排队中（第 $1 位）…');
-  out=out.replace(/\\bRunning for (.+)\\./g,'已运行 $1。');
-  out=out.replace(/\\b(\\d+) sec\\b/g,'$1 秒').replace(/\\b(\\d+) min\\b/g,'$1 分钟');
-  out=out.replace(/\\bSimulating: (.+)/g,'正在模拟：$1');
-  out=out.replace(/\\bset (\\d+) of (\\d+)…/g,'装备组合 $1 / $2…');
-  out=out.replace(/\\bSIMulacrum (.+) is available \\(you have (.+)\\)\\./g,'SIMulacrum $1 有新版本（当前版本：$2）。');
-  out=out.replace(/\\bUpdate failed: (.+)/g,'更新失败：$1');
-  out=out.replace(/\\bAdded (\\d+) upgraded items?\\./g,'已添加 $1 件升级装备。');
-  out=out.replace(/\\bAdded (\\d+) catalyst items?\\./g,'已添加 $1 件化生装备。');
-  out=out.replace(/\\bAt most (\\d+) per combination\\./g,'每个组合最多允许 $1 件。');
-  out=out.replace(/\\b(\\d+) selected\\b/g,'已选择 $1 项');
+  out=out.replace(/\bRun (\d+) sims\b/g,'运行 $1 项模拟');
+  out=out.replace(/\b(\d+) selected\b/g,'已选择 $1 项');
+  out=out.replace(/\b(\d+) in bags\b/g,'背包中 $1 件');
+  out=out.replace(/\b(\d+) in vault\b/g,'宝库中 $1 件');
+  out=out.replace(/\b(\d+) reward(s?) in your export\./g,'导出数据中有 $1 件宝库奖励。');
+  out=out.replace(/\b(\d+) gem setup(s?) to try\b/g,'有 $1 种宝石组合待模拟');
+  out=out.replace(/\b(\d+) set(s?)\b/g,'$1 套装备组合');
+  out=out.replace(/\bWaiting in queue \(position (\d+)\)…/g,'排队中（第 $1 位）…');
+  out=out.replace(/\bRunning for (.+)\./g,'已运行 $1。');
+  out=out.replace(/\b(\d+) sec\b/g,'$1 秒').replace(/\b(\d+) min\b/g,'$1 分钟');
+  out=out.replace(/\bSimulating: (.+)/g,'正在模拟：$1');
+  out=out.replace(/\bset (\d+) of (\d+)…/g,'装备组合 $1 / $2…');
+  out=out.replace(/\bSIMulacrum (.+) is available \(you have (.+)\)\./g,'SIMulacrum $1 有新版本（当前版本：$2）。');
+  out=out.replace(/\bUpdate failed: (.+)/g,'更新失败：$1');
+  out=out.replace(/\bAdded (\d+) upgraded items?\./g,'已添加 $1 件升级装备。');
+  out=out.replace(/\bAdded (\d+) catalyst items?\./g,'已添加 $1 件化生装备。');
+  out=out.replace(/\bAt most (\d+) per combination\./g,'每个组合最多允许 $1 件。');
+  out=out.replace(/\b(\d+) selected\b/g,'已选择 $1 项');
   return out;
 }
 function scan(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(!n.nodeValue.trim())continue;if(!originals.has(n))originals.set(n,n.nodeValue);const s=originals.get(n),v=lang==='zh-CN'?tr(s):s;if(n.nodeValue!==v){ownChanges.add(n);n.nodeValue=v}}}
