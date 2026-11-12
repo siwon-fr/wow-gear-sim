@@ -726,3 +726,6 @@ label.tool.unavailable > input { cursor: not-allowed; }
 @media (max-width: 760px) {
   .run-float { right: 16px; bottom: 16px; padding: 10px 20px; font-size: 15px; }
 }
+
+
+.language-picker{display:flex;align-items:center;gap:7px;font-size:.82rem;color:var(--muted)}.language-picker select{font:inherit;color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
