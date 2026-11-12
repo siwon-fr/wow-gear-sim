@@ -16,7 +16,7 @@ import { buildCombos } from './lib/combos.js';
 import { deriveItems } from './lib/upgrades.js';
 import { buildSimcInput, buildVariants, normalizeOptions } from './lib/simc-input.js';
 import { breakdown, buffUptimes, mainStat, scaleOnly, statWeights } from './lib/report.js';
-import { crestVariants, vaultVariants, trinketVariants, supportedFightScenarios } from './lib/modes.js';
+import { crestVariants, vaultVariants, trinketVariants, supportedFightScenarios, supportedFightStyle } from './lib/modes.js';
 import * as updater from './updater.js';
 import * as history from './history.js';
 import pkg from './package.json' with { type: 'json' };
@@ -161,7 +161,8 @@ async function runSimc(job, {
   const inputPath = path.join(dir, `stage${stage}.simc`);
   const jsonPath = path.join(dir, `stage${stage}.json`);
   await fsp.mkdir(dir, { recursive: true });
-  await fsp.writeFile(inputPath, buildSimcInput(job.parsed, variants, options, {
+  const simOptions = { ...options, fightStyle: supportedFightStyle(job.parsed.className, options.fightStyle) };
+  await fsp.writeFile(inputPath, buildSimcInput(job.parsed, variants, simOptions, {
     jsonPath, threads: THREADS, targetError, htmlPath, actorLines, scale,
   }));
   job.progress = { ...job.progress, stage, phase: 'starting', done: 0, total: variants.length, error: targetError };
