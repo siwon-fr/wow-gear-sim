@@ -503,7 +503,23 @@ const ZH={
 "The sim is still running.":"模拟仍在运行。",
 "Run":"运行",
 "Go to setup":"返回设置",
-"Re-run":"重新运行"
+"Re-run":"重新运行",
+
+"Strength":"力量",
+"Agility":"敏捷",
+"Intellect":"智力",
+"Critical Strike":"暴击",
+"Mastery":"精通",
+"Versatility":"全能",
+"DPS per point":"每点属性带来的 DPS",
+"Pawn string":"Pawn 字符串",
+"Paste this into the Pawn addon (Pawn, then Import) to see upgrade arrows on items in game.":"将此字符串粘贴到 Pawn 插件中（Pawn → Import/导入），即可在游戏中查看装备升级箭头。",
+"Your stat priority":"属性优先级",
+"Secondary stats within about 5% of each other are close enough to treat as equal. For steadier weights, set Precision to Precise.":"次要属性之间的收益差距在约 5% 以内时，可以视为同等优先级。若要获得更稳定的权重，请将精度设为“精确”。",
+"How much DPS each stat is worth to you, plus a Pawn string.":"计算各项属性对 DPS 的收益，并生成 Pawn 字符串。",
+"How much DPS each stat is worth to you, plus a Pawn string for in-game upgrade arrows.":"计算各项属性对 DPS 的收益、属性优先级，并生成游戏内升级箭头所需的 Pawn 字符串。",
+"Stat weights":"属性权重"
+
 };
 const originals=new WeakMap(),ownChanges=new WeakSet();let lang='zh-CN',busy=false;
 function tr(s){
