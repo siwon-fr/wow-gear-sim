@@ -558,7 +558,8 @@ function tr(s){
   out=out.replace(/\b(\d+) selected\b/g,'已选择 $1 项');
   return out;
 }
-function isProtectedText(n){return !!n.parentElement?.closest('code,pre,kbd,textarea,script,style')}\nfunction scan(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(!n.nodeValue.trim()||isProtectedText(n))continue;if(!originals.has(n))originals.set(n,n.nodeValue);const s=originals.get(n),v=lang==='zh-CN'?tr(s):s;if(n.nodeValue!==v){ownChanges.add(n);n.nodeValue=v}}}
+function isProtectedText(n){return !!n.parentElement?.closest('code,pre,kbd,textarea,script,style')}
+function scan(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(!n.nodeValue.trim()||isProtectedText(n))continue;if(!originals.has(n))originals.set(n,n.nodeValue);const s=originals.get(n),v=lang==='zh-CN'?tr(s):s;if(n.nodeValue!==v){ownChanges.add(n);n.nodeValue=v}}}
 const attributeStates=new WeakMap();
 function attrs(root){
   for(const el of [root,...(root.querySelectorAll?.('*')||[])]){
