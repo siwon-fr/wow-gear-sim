@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { parseProfile } from '../lib/parse.js';
-import { crestVariants, vaultVariants, trinketVariants, crestCount, supportedFightScenarios } from '../lib/modes.js';
+import { crestVariants, vaultVariants, trinketVariants, crestCount, supportedFightScenarios, supportedFightStyle } from '../lib/modes.js';
 import { breakdown, buffUptimes, mainStat, scaleOnly, statWeights } from '../lib/report.js';
 
 const PROFILE = `
@@ -109,6 +109,15 @@ test('stat weights normalize to the main stat and build a Pawn string', () => {
   assert.equal(w.pawn, '( Pawn: v1: "SIMulacrum Feral": Class=Druid, Spec=Feral, Agility=1.00, CritRating=0.60, HasteRating=0.80, MasteryRating=0.50, Versatility=0.70 )');
 });
 
+
+test('falls back to Patchwerk for Demon Hunter when Dungeon Slice is selected', () => {
+  assert.equal(supportedFightStyle('Demon Hunter', 'DungeonSlice'), 'Patchwerk');
+  assert.equal(supportedFightStyle('demonhunter', 'Patchwerk'), 'Patchwerk');
+});
+
+test('keeps Dungeon Slice for classes that support it', () => {
+  assert.equal(supportedFightStyle('Druid', 'DungeonSlice'), 'DungeonSlice');
+});
 
 test('skips Dungeon Slice for Demon Hunter but keeps other fight scenarios', () => {
   const scenarios = [
