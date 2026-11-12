@@ -258,7 +258,8 @@ export function stylesHtml(r, describe) {
     return best;
   });
   return `
-    <p class="hint">The same sets simmed in four kinds of fight. Gold marks the best set in each column.</p>
+    <p class="hint">The same sets simmed across the supported fight scenarios. Gold marks the best set in each column.</p>
+    ${r.skipped?.length ? '<p class="hint">Dungeon Slice was skipped because SimulationCraft does not support it for Demon Hunter by default.</p>' : ''}
     <div class="styles-wrap">
       <table class="styles">
         <thead><tr><th>Set</th>${cols.map((c) => `<th><span>${esc(c.label)}</span><small>${esc(c.note)}</small></th>`).join('')}</tr></thead>

@@ -185,6 +185,8 @@ const ZH={
 "at":"装等",
 "track":"升级路线",
 "The same sets simmed in four kinds of fight. Gold marks the best set in each column.":"相同装备组合在四种战斗场景下的模拟结果。金色标记表示该列中的最佳组合。",
+"The same sets simmed across the supported fight scenarios. Gold marks the best set in each column.":"在受支持的战斗场景中模拟相同装备组合。金色标记表示该列中的最佳组合。",
+"Dungeon Slice was skipped because SimulationCraft does not support it for Demon Hunter by default.":"由于 SimulationCraft 默认不支持恶魔猎手的 Dungeon Slice（地下城切片），已自动跳过该场景。",
 "Set":"装备组合",
 "Your current gear":"当前装备",
 "History":"历史记录",

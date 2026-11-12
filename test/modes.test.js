@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { parseProfile } from '../lib/parse.js';
-import { crestVariants, vaultVariants, trinketVariants, crestCount } from '../lib/modes.js';
+import { crestVariants, vaultVariants, trinketVariants, crestCount, supportedFightScenarios } from '../lib/modes.js';
 import { breakdown, buffUptimes, mainStat, scaleOnly, statWeights } from '../lib/report.js';
 
 const PROFILE = `
@@ -107,4 +107,22 @@ test('stat weights normalize to the main stat and build a Pawn string', () => {
   const w = statWeights(PLAYER, 'druid', 'feral');
   assert.equal(w.stats.find((s) => s.key === 'Haste').weight, 0.8);
   assert.equal(w.pawn, '( Pawn: v1: "SIMulacrum Feral": Class=Druid, Spec=Feral, Agility=1.00, CritRating=0.60, HasteRating=0.80, MasteryRating=0.50, Versatility=0.70 )');
+});
+
+
+test('skips Dungeon Slice for Demon Hunter but keeps other fight scenarios', () => {
+  const scenarios = [
+    { key: 'st', fightStyle: 'Patchwerk' },
+    { key: 'dungeon', fightStyle: 'DungeonSlice' },
+  ];
+  const result = supportedFightScenarios('demonhunter', scenarios);
+  assert.deepEqual(result.scenarios.map((s) => s.key), ['st']);
+  assert.deepEqual(result.skipped.map((s) => s.key), ['dungeon']);
+});
+
+test('keeps Dungeon Slice for other classes', () => {
+  const scenarios = [{ key: 'dungeon', fightStyle: 'DungeonSlice' }];
+  const result = supportedFightScenarios('druid', scenarios);
+  assert.deepEqual(result.scenarios, scenarios);
+  assert.deepEqual(result.skipped, []);
 });
