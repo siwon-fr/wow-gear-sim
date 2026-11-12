@@ -1,0 +1,35 @@
+name: Localization CI
+
+on:
+  push:
+    branches: [feature/simplified-chinese]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check JavaScript syntax
+        shell: pwsh
+        run: |
+          node --check public/app.js
+          node --check public/analysis.js
+          node --check public/loadout.js
+          node --check public/i18n.js
+          node --check server.js
+      - name: Run tests
+        run: npm test
+      - name: Smoke-test Windows packaging
+        run: npm run package
